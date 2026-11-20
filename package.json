@@ -1,6 +1,6 @@
 {
   "name": "capacitor-kotlin-multi-platform-consumer",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Example Capacitor plugin built on capacitor-kotlin-multi-platform: shared Kotlin device info & motion processing on Android, iOS and Web",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -12,6 +12,8 @@
     "dist/",
     "ios/Sources",
     "ios/Tests",
+    "ios/Frameworks/",
+    "kmp-repo/",
     "Package.swift",
     "CapacitorKotlinMultiPlatformConsumer.podspec"
   ],
@@ -27,20 +29,28 @@
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "kotlin",
+    "kotlin-multiplatform",
+    "kmp",
+    "sensors",
+    "accelerometer"
   ],
   "scripts": {
     "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
     "verify:ios": "xcodebuild -scheme CapacitorKotlinMultiPlatformConsumer -destination generic/platform=iOS",
     "verify:android": "cd android && ./gradlew clean build test && cd ..",
     "verify:web": "npm run build",
-    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
-    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
+    "kmp:build": "cd kmp && ./gradlew capacitorExport",
+    "kmp:test": "cd kmp && ./gradlew allTests",
+    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint ios/Sources ios/Tests Package.swift",
+    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format ios/Sources ios/Tests Package.swift",
     "eslint": "eslint . --ext ts",
     "prettier": "prettier \"**/*.{css,html,ts,js,java}\" --plugin=prettier-plugin-java",
     "swiftlint": "node-swiftlint",
     "docgen": "docgen --api KmpConsumerPlugin --output-readme README.md --output-json dist/docs.json",
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.mjs",
+    "build": "npm run kmp:build && npm run build:web",
+    "build:web": "npm run clean && npm run docgen && tsc && node scripts/copy-kmp-js.mjs && rollup -c rollup.config.mjs",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build"
@@ -53,6 +63,7 @@
     "@ionic/eslint-config": "^0.4.0",
     "@ionic/prettier-config": "^4.0.0",
     "@ionic/swiftlint-config": "^2.0.0",
+    "capacitor-kotlin-multi-platform": "file:../capacitor-kotlin-multi-platform",
     "eslint": "^8.57.1",
     "prettier": "^3.6.2",
     "prettier-plugin-java": "^2.7.7",
@@ -62,7 +73,8 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "@capacitor/core": ">=8.0.0"
+    "@capacitor/core": ">=8.0.0",
+    "capacitor-kotlin-multi-platform": "^0.1.0"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",

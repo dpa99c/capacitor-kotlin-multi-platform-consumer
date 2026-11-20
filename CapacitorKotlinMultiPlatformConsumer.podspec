@@ -11,7 +11,13 @@ Pod::Spec.new do |s|
   s.author = package['author']
   s.source = { :git => package['repository']['url'], :tag => s.version.to_s }
   s.source_files = 'ios/Sources/**/*.{swift,h,m,c,cc,mm,cpp}'
+  # Shared Kotlin code, built by `npm run kmp:build` (kmp/shared).
+  s.vendored_frameworks = 'ios/Frameworks/KmpConsumerShared.xcframework'
+  # Kotlin/Native targets: iosArm64 + iosSimulatorArm64 – there is no Intel (x86_64) simulator slice.
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
   s.ios.deployment_target = '15.0'
   s.dependency 'Capacitor'
-  s.swift_version = '5.1'
+  s.dependency 'CapacitorKotlinMultiPlatform'
+  s.swift_version = '5.9'
 end

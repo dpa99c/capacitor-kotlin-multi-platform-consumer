@@ -1,1 +1,4 @@
-example-app
+example
+src/generated
+kmp
+kmp-repo

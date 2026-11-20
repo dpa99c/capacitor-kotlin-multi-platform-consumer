@@ -13,6 +13,10 @@ This guide provides instructions for contributing to this Capacitor plugin.
     npm install
     ```
 
+1. Make sure you have a JDK 17+ (21 recommended), Xcode with the iOS SDK and the Android SDK. Gradle,
+   Kotlin and Kotlin/Native are downloaded by the Gradle wrapper in `kmp/` on the first build.
+1. The base plugin must be checked out next to this repository (`../capacitor-kotlin-multi-platform`)
+   and built once (`npm install && npm run build` there); it is linked via `file:`.
 1. Install SwiftLint if you're on macOS.
 
     ```shell
@@ -21,9 +25,19 @@ This guide provides instructions for contributing to this Capacitor plugin.
 
 ### Scripts
 
+#### `npm run kmp:build`
+
+Builds the Kotlin Multiplatform code in `kmp/` and exports it into the plugin (`./gradlew capacitorExport`):
+the Android AAR to `kmp-repo/`, the XCFramework to `ios/Frameworks/` and the Kotlin/JS modules to
+`src/generated/kmp/`. These folders are git-ignored but published to npm.
+
+#### `npm run kmp:test`
+
+Runs the shared Kotlin tests on the JVM (Android host tests), the iOS simulator and Node.js.
+
 #### `npm run build`
 
-Build the plugin web assets and generate plugin API documentation using [`@capacitor/docgen`](https://github.com/ionic-team/capacitor-docgen).
+Run `kmp:build`, then build the plugin web assets and generate plugin API documentation using [`@capacitor/docgen`](https://github.com/ionic-team/capacitor-docgen).
 
 It will compile the TypeScript code from `src/` into ESM JavaScript in `dist/esm/`. These files are used in apps with bundlers when your plugin is imported.
 

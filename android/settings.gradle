@@ -1,2 +1,6 @@
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
+// The base plugin (needed to build this plugin on its own, e.g. `npm run verify:android`; inside a
+// Capacitor app the CLI includes it automatically because the app depends on it).
+include ':capacitor-kotlin-multi-platform'
+project(':capacitor-kotlin-multi-platform').projectDir = new File('../node_modules/capacitor-kotlin-multi-platform/android')

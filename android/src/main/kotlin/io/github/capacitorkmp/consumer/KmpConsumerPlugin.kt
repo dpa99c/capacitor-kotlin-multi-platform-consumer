@@ -1,23 +1,34 @@
 package io.github.capacitorkmp.consumer
 
-import com.getcapacitor.JSObject
-import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
-import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.PluginMethod
+import com.getcapacitor.annotation.CapacitorPlugin
+import io.github.capacitorkmp.core.KmpCapacitorPlugin
+import io.github.capacitorkmp.core.KmpModule
 
+/**
+ * Android glue of the `KmpConsumer` plugin. All behaviour lives in the shared Kotlin
+ * [ConsumerModule] (kmp/shared); [KmpCapacitorPlugin] from capacitor-kotlin-multi-platform hosts it,
+ * initialises the Android Context for the `actual` implementations and forwards module events to
+ * JavaScript listeners.
+ */
 @CapacitorPlugin(name = "KmpConsumer")
-class KmpConsumerPlugin : Plugin() {
+class KmpConsumerPlugin : KmpCapacitorPlugin() {
 
-    private val implementation = KmpConsumer()
+    override fun createModule(): KmpModule = ConsumerModule()
 
     @PluginMethod
-    fun echo(call: PluginCall) {
-        val value = call.getString("value") ?: ""
+    fun getDeviceInfo(call: PluginCall) = forward(call)
 
-        val ret = JSObject().apply {
-            put("value", implementation.echo(value))
-        }
-        call.resolve(ret)
-    }
+    @PluginMethod
+    fun isMotionAvailable(call: PluginCall) = forward(call)
+
+    @PluginMethod
+    fun requestMotionPermission(call: PluginCall) = forward(call)
+
+    @PluginMethod
+    fun startMotionUpdates(call: PluginCall) = forward(call)
+
+    @PluginMethod
+    fun stopMotionUpdates(call: PluginCall) = forward(call)
 }

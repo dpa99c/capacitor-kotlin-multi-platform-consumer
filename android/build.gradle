@@ -55,10 +55,34 @@ repositories {
     mavenCentral()
 }
 
+// ---------------------------------------------------------------------------------------------
+// Kotlin Multiplatform artifacts
+//
+// The shared Kotlin code (kmp/shared) is built by `npm run kmp:build` and published to the local
+// Maven repository `kmp-repo/` shipped in this npm package. Register it for every project of the
+// host build so the app can resolve the AAR. (The base plugin, capacitor-kotlin-multi-platform,
+// registers its own repository containing the `core` library the same way.)
+// ---------------------------------------------------------------------------------------------
+def consumerKmpRepo = file("../kmp-repo")
+rootProject.allprojects { p ->
+    p.repositories {
+        maven {
+            name = "kmpConsumer"
+            url = consumerKmpRepo
+            content { includeGroup "io.github.capacitorkmp.consumer" }
+        }
+    }
+}
+def consumerKmpVersion = new groovy.json.JsonSlurper().parse(file("../package.json")).version
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
+    // Base plugin: provides KmpCapacitorPlugin / KmpBridge (core) and its Maven repository.
+    implementation project(':capacitor-kotlin-multi-platform')
+    // This plugin's shared Kotlin code (ConsumerModule + Android actuals).
+    implementation "io.github.capacitorkmp.consumer:shared-android:$consumerKmpVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidxCoreKTXVersion"
     testImplementation "junit:junit:$junitVersion"
