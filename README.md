@@ -83,6 +83,10 @@ live x/y/z/|linear| chart, and step, cadence, shake and tilt readouts.
 
 ## Build your own
 
+> This plugin demonstrates the **multi-plugin** approach. For the same features as two plugins backed by
+> one Kotlin framework (smaller iOS apps), see
+> [`capacitor-kotlin-multi-platform-umbrella`](https://github.com/dpa99c/capacitor-kotlin-multi-platform-umbrella).
+
 This repository is the reference for
 [docs/EXTENDING.md](https://github.com/dpa99c/capacitor-kotlin-multi-platform/docs/EXTENDING.md) in the base plugin. It covers
 scaffolding a plugin, the KMP build, expect/actual patterns, the Android/iOS/Web glue, events, errors,
