@@ -21,10 +21,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/example/capacitor-kotlin-multi-platform-consumer.git"
+    "url": "git+https://github.com/dpa99c/capacitor-kotlin-multi-platform-consumer.git"
   },
   "bugs": {
-    "url": "https://github.com/example/capacitor-kotlin-multi-platform-consumer/issues"
+    "url": "https://github.com/dpa99c/capacitor-kotlin-multi-platform-consumer/issues"
   },
   "keywords": [
     "capacitor",
